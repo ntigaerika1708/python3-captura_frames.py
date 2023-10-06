@@ -1,0 +1,87 @@
+###Este código abre um arquivo de vídeo, lê cada quadro e permite que você faça algo com cada quadro, como salvá-lo. Você pode personalizar a parte onde "Faça algo com o quadro" para atender às suas necessidades específicas, como análise de imagem.
+
+###Certifique-se de substituir 'seu_video.mp4' pelo caminho do arquivo de vídeo que você deseja processar.
+
+Certifique-se de ter o Matplotlib instalado:
+
+# pip install matplotlib
+
+Para capturar quadros de um vídeo transmitido do YouTube, você pode usar a
+biblioteca pytube para fazer o download do vídeo e, em seguida, processar os quadros. Certifique-se de instalar o pytube
+
+# pip install pytube
+
+ Instalar Matplotlib
+
+# pip install matplotlib
+
+Instale as dependências necessárias:
+
+sudo apt-get update
+sudo apt-get install python3-opencv
+sudo apt-get install libsm6 libxext6
+
+Abra um editor de texto, como o Bloco de Notas no Windows, Visual Studio Code, Sublime Text, ou qualquer editor de sua preferência.
+
+Cole o código que você forneceu no arquivo de texto.
+
+Salve o arquivo com uma extensão .py, por exemplo, "captura_frames.py".
+
+Abra um terminal ou prompt de comando.
+
+Navegue para o diretório onde você salvou o arquivo .py usando o comando cd no terminal.
+
+Código para capturar quadros de um vídeo do YouTube e exibi-los usando Matplotlib:
+
+
+from pytube import YouTube
+import cv2
+import matplotlib.pyplot as plt
+
+# URL do vídeo do YouTube
+video_url = 'https://www.youtube.com/watch?v=em1lhLC06M0'
+
+# Baixe o vídeo
+yt = YouTube(video_url)
+stream = yt.streams.get_highest_resolution()
+stream.download()
+
+# Abra o vídeo baixado
+video_capture = cv2.VideoCapture(yt.title + ".mp4")
+
+# Verifique se o vídeo foi aberto corretamente
+if not video_capture.isOpened():
+    print("Erro ao abrir o vídeo.")
+    exit()
+
+frame_count = 0
+
+while True:
+    # Leia um quadro do vídeo
+    ret, frame = video_capture.read()
+
+    # Verifique se a leitura do quadro foi bem-sucedida
+    if not ret:
+        break
+
+    # Exibir o quadro usando Matplotlib
+    plt.imshow(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+    plt.show(block=False)
+    plt.pause(0.1)
+    plt.clf()
+
+    # Faça algo com o quadro, como análise
+
+    # Incrementa o contador de quadros
+    frame_count += 1
+
+# Libere o objeto de captura e feche a janela Matplotlib
+video_capture.release()
+plt.close()
+
+Agora, você pode executar o seu script :
+
+python3 captura_frames.py
+
+OBS: Certifique-se de substituir a URL do vídeo do YouTube por sua URL desejada. Este código irá baixar o vídeo, processar os quadros e exibi-los em uma janela Matplotlib.
+Você pode personalizar a análise e a exibição dos quadros de acordo com suas necessidades.
